@@ -76,14 +76,17 @@ export default function LoginPage() {
 
       let message = "Login failed";
 
-      if (error.code === "auth/user-not-found") {
-        message = "User not found";
-      } else if (error.code === "auth/wrong-password") {
-        message = "Wrong password";
-      } else if (error.code === "auth/invalid-email") {
-        message = "Invalid email format";
-      } else if (error.code === "auth/invalid-credential") {
-        message = "Invalid email or password";
+      if (error && typeof error === "object" && "code" in error) {
+        const errorCode = (error as { code: string }).code;
+        if (errorCode === "auth/user-not-found") {
+          message = "User not found";
+        } else if (errorCode === "auth/wrong-password") {
+          message = "Wrong password";
+        } else if (errorCode === "auth/invalid-email") {
+          message = "Invalid email format";
+        } else if (errorCode === "auth/invalid-credential") {
+          message = "Invalid email or password";
+        }
       }
 
       toast.error(message);
