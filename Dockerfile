@@ -57,7 +57,7 @@ CMD ["npx", "prisma", "migrate", "deploy"]
 FROM base AS runner
 
 LABEL org.opencontainers.image.title="todo-list-nextjs"
-LABEL org.opencontainers.image.url="https://todo.csbihub.id"
+LABEL org.opencontainers.image.url="https://todo.davin.id"
 
 RUN addgroup --system --gid 1001 nodejs \
   && adduser --system --uid 1001 --ingroup nodejs nextjs
