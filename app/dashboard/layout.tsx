@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getSession } from "@/lib/auth";
 import LogoutButton from "@/components/logout-button";
 
@@ -38,7 +39,7 @@ export default async function DashboardLayout({
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               {session.image ? (
-                <img
+                <Image
                   src={session.image}
                   alt={displayName}
                   className="h-9 w-9 rounded-full object-cover ring-2 ring-border"

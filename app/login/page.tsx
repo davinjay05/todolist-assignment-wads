@@ -44,9 +44,10 @@ export default function LoginPage() {
 
       router.push("/dashboard");
       router.refresh();
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Login failed";
       console.error(error);
-      toast.error(error.message || "Login failed");
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -70,7 +71,7 @@ export default function LoginPage() {
 
       router.push("/dashboard");
       router.refresh();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
 
       let message = "Login failed";
@@ -133,7 +134,7 @@ export default function LoginPage() {
         </CardContent>
 
         <p className="text-center text-sm text-muted-foreground pt-2">
-        Don't have an account?{" "}
+        Don&#39;t have an account?{" "}
         <Link href="/register" className="font-medium text-primary underline-offset-4 hover:underline">
           Sign up
         </Link>

@@ -1,3 +1,5 @@
+import { NextRequest } from "next/server";
+
 jest.mock('../../../lib/firebase-admin', () => ({
   adminAuth: {
     verifyIdToken: jest.fn().mockResolvedValue({ uid: '123' }),
@@ -24,7 +26,7 @@ describe('POST /api/session', () => {
       headers: {
         get: jest.fn().mockReturnValue('Bearer valid-token'),
       },
-    } as any 
+    } as unknown as NextRequest
 
     const response = await POST(mockRequest)
 
