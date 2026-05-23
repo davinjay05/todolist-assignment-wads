@@ -1,9 +1,10 @@
 import { NextRequest } from "next/server";
 
 jest.mock('../../../lib/firebase-admin', () => ({
-  adminAuth: {
-    verifyIdToken: jest.fn().mockResolvedValue({ uid: '123' }),
-  },
+  getAdminAuth: jest.fn(() => ({
+    verifyIdToken: jest.fn().mockResolvedValue({ uid: '123', email: 'test@example.com' }),
+    getUser: jest.fn().mockResolvedValue({ uid: '123', displayName: 'Test User', photoURL: null }),
+  })),
 }))
 
 jest.mock('next/server', () => ({
