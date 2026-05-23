@@ -1,5 +1,5 @@
 import { cookies, headers } from "next/headers";
-import { adminAuth } from "@/lib/firebase-admin";
+import { getAdminAuth } from "@/lib/firebase-admin";
 import { auth } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import type { DecodedIdToken } from "firebase-admin/auth";
@@ -22,18 +22,22 @@ export async function getSession(): Promise<SessionUser | null> {
   // Try Firebase ID token (Google or Firebase email/password)
   if (sessionCookie) {
     try {
-      const decodedToken: DecodedIdToken = await adminAuth.verifyIdToken(sessionCookie, true);
-      const user = await prisma.user.findUnique({
-        where: { email: decodedToken.email! },
-      });
-      if (user) {
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          image: user.image,
-        };
+      if (process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) {
+        const adminAuth = getAdminAuth();
+        const decodedToken: DecodedIdToken = await adminAuth.verifyIdToken(sessionCookie, true);
+        const user = await prisma.user.findUnique({
+          where: { email: decodedToken.email! },
+        });
+        if (user) {
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            image: user.image,
+          };
+        }
       }
+      // If Firebase not configured or user not found, fall through to Better Auth
     } catch {
       // Not a valid Firebase token or user not in DB; fall through to Better Auth
     }
