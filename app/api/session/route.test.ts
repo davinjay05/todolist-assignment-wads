@@ -1,3 +1,8 @@
+// Ensure Firebase env vars exist during tests so the route doesn't return 500
+process.env.FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'test-project';
+process.env.FIREBASE_CLIENT_EMAIL = process.env.FIREBASE_CLIENT_EMAIL || 'test@example.com';
+process.env.FIREBASE_PRIVATE_KEY = process.env.FIREBASE_PRIVATE_KEY || '-----BEGIN PRIVATE KEY-----\nTEST\n-----END PRIVATE KEY-----';
+
 import { NextRequest } from "next/server";
 
 jest.mock('../../../lib/firebase-admin', () => ({
