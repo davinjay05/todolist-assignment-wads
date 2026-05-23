@@ -72,9 +72,10 @@ export default function RegisterPage() {
 
     router.push("/dashboard");
     router.refresh();
-  } catch (err: any) {
-    console.error(err);
-    toast.error(err.message || "Registration failed.");
+  } catch (err: Error | unknown) {
+    const error = err instanceof Error ? err : new Error('Unknown error');
+    console.error(error);
+    toast.error(error.message || "Registration failed.");
   } finally {
     setLoading(false);
   }

@@ -6,7 +6,7 @@ jest.mock('../../../lib/firebase-admin', () => ({
 
 jest.mock('next/server', () => ({
   NextResponse: {
-    json: (data: any, init?: any) => ({
+    json: (data: Record<string, unknown>, init?: { status?: number }) => ({
       status: init?.status || 200,
       json: async () => data,
       cookies: {
@@ -24,7 +24,7 @@ describe('POST /api/session', () => {
       headers: {
         get: jest.fn().mockReturnValue('Bearer valid-token'),
       },
-    } as any
+    } as any 
 
     const response = await POST(mockRequest)
 
